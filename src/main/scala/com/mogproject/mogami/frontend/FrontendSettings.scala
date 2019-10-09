@@ -14,7 +14,7 @@ object FrontendSettings {
   var imageDownloadEnabled = true
 
   object url {
-    val baseUrl = "https://play.mogproject.com/"
+    val baseUrl = "https://pg.shogi-dojo.com/"
     val authorSiteUrl = "https://mogproject.com"
     val authorContactUrl = "https://twitter.com/mogproject"
     val donationUrl = "https://www.paypal.me/mogproject/5"
@@ -35,7 +35,7 @@ object FrontendSettings {
 
     object playground {
       val apiVersion = 1
-      var apiUrl = "https://kifu.co"
+      var apiUrl = "https://kifu.shogi-dojo.com"
     }
 
   }
