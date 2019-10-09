@@ -24,12 +24,10 @@ abstract class ShareUnit(id: String, view: Boolean = false) extends WebComponent
   }
 
   override def element: HTMLElement = div(
-    copyBar.element,
-    shortenBar.element
+    copyBar.element
   ).render
 
   def updateValue(value: String): Unit = {
     copyBar.updateValue(value)
-    shortenBar.clear()
   }
 }
