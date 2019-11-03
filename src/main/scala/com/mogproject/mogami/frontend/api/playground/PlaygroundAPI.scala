@@ -87,8 +87,19 @@ case class PlaygroundAPI(apiUrl: String, apiVersion: Int, timeoutMillis: Int = 5
   (path: String, request: Request)
   (implicit writes: Writes[Request], reads: Reads[Response]): Future[Option[Response]] = {
     Ajax.post(
-      s"${apiUrl}/v${apiVersion}/${path}",
-      data = Json.toJson(request).toString,
+      // s"${apiUrl}/v${apiVersion}/${path}",
+      "https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyCyy-jp_KST3_82FE2QPv8t1p7IaieHVOE",
+      // data = Json.toJson(request).toString,
+      // data = "{\"dynamicLinkInfo\":{\"domainUriPrefix\":\"https://sp.shogi-dojo.com/kifu\",\"link\":\"https://pg.shogi-dojo.com/?u=5zP3_9_5gks1_5R3_4B2K1_9_9_9_9.b.rb3g3s4n4l17p~0..343\"}}",
+      // data = "{}",
+      data = """
+        {
+          "dynamicLinkInfo": {
+            "domainUriPrefix": "https://sp.shogi-dojo.com/kifu",
+            "link": "https://pg.shogi-dojo.com/?u=5zP3_9_5gks1_5R3_4B2K1_9_9_9_9.b.rb3g3s4n4l17p~0..343"
+          }
+        }
+      """,
       timeout = timeoutMillis,
       headers = Map(
         "Content-Type" -> "application/json"
@@ -102,10 +113,19 @@ case class PlaygroundAPI(apiUrl: String, apiVersion: Int, timeoutMillis: Int = 5
         case 500 => throw APIResponseError(xhr.responseText)
         case 200 if xhr.responseText.isEmpty => None // OK
         case 200 =>
+          val response = Map(
+            "id" -> Json.parse(xhr.responseText)("shortLink"),
+            "longUrl" -> "",
+            "imageUrl" -> ""
+          )
           val ret = Try(Json.parse(xhr.responseText).as[Response])
+          // println(s"responseText: ${ret}")
+          println(Try(Json.parse(xhr.responseText)))
+          println("*******************************************************")
           ret.map(Some.apply).recover { case e: Throwable =>
             throw APIResponseError(s"class=${e.getClass}, error=${e.getMessage}, response=${xhr.responseText}")
           }.get
+          // xhr.response
         case 0 => throw APIConnectionError(xhr.responseText)
         case _ => throw APIResponseError(s"status: ${xhr.status}, text: ${xhr.responseText}")
       }
@@ -113,7 +133,8 @@ case class PlaygroundAPI(apiUrl: String, apiVersion: Int, timeoutMillis: Int = 5
   }
 
   private[this] def legalizeUrl(url: String): String = {
-    if (url.startsWith(FrontendSettings.url.baseUrl)) url else FrontendSettings.url.baseUrl + url.dropWhile(_ != '?')
+    // if (url.startsWith(FrontendSettings.url.baseUrl)) url else FrontendSettings.url.baseUrl + url.dropWhile(_ != '?')
+    url
   }
 
   def shortenUrl(longUrl: String): Future[Option[UrlShortenResponse]] = {
