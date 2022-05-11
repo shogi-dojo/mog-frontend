@@ -227,7 +227,9 @@ case object MessagesJapanese extends Messages {
       WesternOneCharFace -> "西洋 1",
       HidetchiInternational -> "Hidetchi 国際駒",
       ShogiCzFace -> "Shogi.cz",
-      ShogiCzBlackAndWhiteFace -> "Shogi.cz 白黒"
+      ShogiCzBlackAndWhiteFace -> "Shogi.cz 白黒",
+      InternationalizedPlastic -> "国際駒 1",
+      InternationalizedWood -> "国際駒 2"
     )
   }
 
@@ -268,7 +270,9 @@ case object MessagesJapanese extends Messages {
         " / ",
         a(href := FrontendSettings.url.credit.hidetchiUrl, "81 Dojo"),
         " / ",
-        a(href := FrontendSettings.url.credit.shogiCzUrl, "Shogi.cz")
+        a(href := FrontendSettings.url.credit.shogiCzUrl, "Shogi.cz"),
+        " / ",
+        a(href := FrontendSettings.url.credit.couchTomatoUrl, "CouchTomato87")
       ),
       li(
         "駒用フォント - ",
@@ -304,4 +308,7 @@ case object MessagesJapanese extends Messages {
   override def ASK_DELETE_BRANCH(branchNo: BranchNo): String = s"現在の変化 (変化#${branchNo}) が削除されます。コメントも失われますが、よろしいですか?"
 
   override val INVALID_STATE: String = "不正な局面です。"
+
+  override val WITH_COMMENT_ONLY: String = "コメント付きの局面のみ表示"
+  override val NO_POSITIONS_WITH_COMMENT: String = "コメント付きの局面はありません。"
 }
