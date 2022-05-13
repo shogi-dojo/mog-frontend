@@ -33,7 +33,7 @@ trait PlaygroundAppLike {
     // get args
     val args = PlaygroundArguments()
       .loadLocalStorage()
-      .parseQueryString(dom.window.location.search)
+      .parseQueryString(dom.window.location.search.replaceAll("\\+", " "))
     if (args.config.isDebug) {
       println("Debug Mode enabled.")
       println(s"Sound supported: ${BrowserInfo.isSoundSupported}")
